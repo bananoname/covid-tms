@@ -1,0 +1,5 @@
+[
+  "FLAG{simple_prompt_injection_success}",
+  "FLAG{json_payload_triggered}",
+  "FLAG{context_escape_victory}"
+]

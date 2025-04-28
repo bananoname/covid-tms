@@ -1,0 +1,65 @@
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 20px;
+}
+
+.terminal {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00ff99;
+}
+
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #00ff99;
+    text-align: center;
+}
+
+.command-section {
+    background-color: #2e2e2e;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.output {
+    margin-bottom: 20px;
+}
+
+.input-form {
+    display: flex;
+    align-items: center;
+}
+
+    .input-form label {
+        margin-right: 10px;
+    }
+
+    .input-form input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        border-radius: 5px;
+        background: #444;
+        color: #fff;
+    }
+
+span.input {
+    color: #00d8ff;
+}
+
+span.hint {
+    color: #aaa;
+}
+
+pre#typewriter-output {
+    white-space: pre-wrap;
+    color: #0f0;
+}

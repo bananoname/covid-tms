@@ -1,0 +1,116 @@
+﻿/* Reset basic styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style for the chat container */
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Header of the chat */
+.chat-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Style for the chat box */
+.chat-box {
+    padding: 20px;
+    height: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Message bubbles */
+.user-msg, .bot-msg {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.user-msg {
+    background-color: #d1e7ff;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
+.bot-msg {
+    background-color: #e3f2fd;
+    align-self: flex-start;
+    margin-right: auto;
+}
+
+/* Form input area */
+form {
+    display: flex;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
+
+#user_input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+}
+
+    #user_input:focus {
+        border-color: #4CAF50;
+    }
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+/* Hiệu ứng gõ chữ */
+.typing {
+    display: inline-block;
+    white-space: nowrap;
+    border-right: 2px solid #4CAF50; /* Đường gạch nhấp nháy như con trỏ */
+    animation: typing 2s steps(30) 1s forwards, blink 0.75s step-end infinite;
+}
+
+/* Hiệu ứng nhấp nháy con trỏ */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+    button:hover {
+        background-color: #45a049;
+    }

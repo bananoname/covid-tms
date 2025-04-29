@@ -34,7 +34,7 @@ if (isset($_POST['user_input'])) {
   <meta charset="UTF-8">
   <title>Global Health Corp. - Trung Tâm Y Tế AI</title>
   <link rel="stylesheet" href="assets/css/style.css">
-  <script src="assets/js/chat-ui.js" defer></script>
+  
 </head>
 <body>
   <div class="chat-container">

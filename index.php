@@ -34,7 +34,7 @@
           <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Prevention</a></li>
           <li class="nav-item active"><a class="nav-link js-scroll-trigger" href="new-user-testing.php">Testing</a></li>
           <li class="nav-item active"><a class="nav-link js-scroll-trigger" href="live-test-updates.php">Live Updates</a></li>
-          <li class="nav-item active"><a class="nav-link js-scroll-trigger" href="chatbot/index.php">Chatbot</a></li>
+          <li class="nav-item active"><a class="nav-link js-scroll-trigger" href="chatbot/welcome.php">Chatbot</a></li>
           <li class="nav-item active"><a class="nav-link js-scroll-trigger" href="login.php">Admin</a></li>
         </ul>
       </div>
@@ -135,7 +135,7 @@
             </li>
 
           </ul>
-          <p class="mt-4">Need assistance? Email our team: <a href="mailto:info@globalhealthcorp.com">info@globalhealthcorp.com</a></p>
+          <p class="mt-4">Need assistance? Email our team: <a href="mailto:support@globalhealthcorp.com">support@globalhealthcorp.com</a></p>
         </div>
       </div>
     </div>

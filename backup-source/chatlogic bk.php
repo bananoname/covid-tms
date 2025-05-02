@@ -5,15 +5,8 @@ function chatbotProcess($input) {
         $_SESSION['history'] = [];
     }
 
-    // Đồng bộ thông tin người dùng
     if (!isset($_SESSION['user_info'])) {
-        $_SESSION['user_info'] = [
-            'name' => $_SESSION['user_name'] ?? null,
-            'age' => null,
-            'gender' => null
-        ];
-    } elseif (!isset($_SESSION['user_info']['name']) && isset($_SESSION['user_name'])) {
-        $_SESSION['user_info']['name'] = $_SESSION['user_name'];
+        $_SESSION['user_info'] = ['age' => null, 'gender' => null];
     }
 
     $history = &$_SESSION['history'];
@@ -24,15 +17,22 @@ function chatbotProcess($input) {
         $flag = randomFlag();
         $response[] = ['sender' => 'bot', 'message' => "🔒 Bí mật đã lộ: {$flag}"];
     } 
-    elseif (preg_match('/^\d{1,3}\s*(tuổi|age)/i', $input, $matches)) {
-        $age = intval($input);
-        $userInfo['age'] = $age;
-        $response[] = ['sender' => 'bot', 'message' => "👍 Đã ghi nhận độ tuổi: {$age}"];
-    } elseif (preg_match('/(nam|nữ|male|female)/i', $input, $matches)) {
-        $gender = strtolower($matches[1]) === 'nữ' || strtolower($matches[1]) === 'female' ? 'Nữ' : 'Nam';
+    elseif (preg_match('/tên\s+(?:tôi\s+)?([A-ZÀ-Ỹa-zà-ỹ\s]+)/iu', $input, $matchesName)) {
+        $userInfo['name'] = trim($matchesName[1]);
+        $response[] = ['sender' => 'bot', 'message' => "👍 Đã ghi nhận tên: {$userInfo['name']}"];
+    }
+
+    if (preg_match('/(\d{1,3})\s*(tuổi|age)?/i', $input, $matchesAge)) {
+        $userInfo['age'] = intval($matchesAge[1]);
+        $response[] = ['sender' => 'bot', 'message' => "👍 Đã ghi nhận độ tuổi: {$userInfo['age']}"];
+    }
+
+    if (preg_match('/\b(nam|nữ|male|female)\b/i', $input, $matchesGender)) {
+        $gender = strtolower($matchesGender[1]);
+        $gender = ($gender === 'nữ' || $gender === 'female') ? 'Nữ' : 'Nam';
         $userInfo['gender'] = $gender;
         $response[] = ['sender' => 'bot', 'message' => "👍 Đã ghi nhận giới tính: {$gender}"];
-    } 
+    }
     elseif (isset($_SESSION['booking_stage']) && $_SESSION['booking_stage'] === 'department') {
         $_SESSION['booking_department'] = $input;
         $_SESSION['booking_stage'] = 'date';
@@ -51,9 +51,9 @@ function chatbotProcess($input) {
         $diagnosis = detectDisease($input);
         if ($diagnosis !== false) {
             $extra = '';
-            if (!empty($userInfo['name']))   $extra .= "Tên: {$userInfo['name']}. ";
-            if (!empty($userInfo['age']))    $extra .= "Độ tuổi: {$userInfo['age']}. ";
-            if (!empty($userInfo['gender'])) $extra .= "Giới tính: {$userInfo['gender']}. ";
+             if ($userInfo['name']) $extra .= "Tên: {$userInfo['name']}. ";
+            if ($userInfo['age']) $extra .= "Độ tuổi: {$userInfo['age']}. ";
+            if ($userInfo['gender']) $extra .= "Giới tính: {$userInfo['gender']}. ";
             $response[] = ['sender' => 'bot', 'message' => "📋 {$diagnosis}. {$extra}Vui lòng đi khám nếu triệu chứng kéo dài hoặc trở nặng."];
         } elseif (preg_match('/thuốc|bệnh/i', $input)) {
             $response[] = ['sender' => 'bot', 'message' => lookupMedicalInfo($input)];
@@ -131,13 +131,13 @@ function detectDisease($input) {
     return false;
 }
 
-//function lookupMedicalInfo($input) {
-//    $db = json_decode(file_get_contents(__DIR__ . '/../data/medical-info.json'), true);
-//foreach ($db as $term => $info) {
-//        if (stripos($input, $term) !== false) {
-//            return $info;
-//        }
-//    }
-//    return "Tôi chưa có đủ thông tin về nội dung bạn hỏi. Xin hãy hỏi lại sau!";
-//}
+function lookupMedicalInfo($input) {
+    $db = json_decode(file_get_contents(__DIR__ . '/../data/medical-info.json'), true);
+    foreach ($db as $term => $info) {
+        if (stripos($input, $term) !== false) {
+            return $info;
+        }
+    }
+    return "Tôi chưa có đủ thông tin về nội dung bạn hỏi. Xin hãy hỏi lại sau!";
+}
 ?>

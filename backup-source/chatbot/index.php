@@ -45,52 +45,51 @@ include_once('includes/header.php'); // Bao gồm header
 
 <div class="chat-container">
     <div id="chat-box" class="chat-box">
-        <?php
+      <?php
         $lastIndex = count($_SESSION['history']) - 1;
 
         foreach ($_SESSION['history'] as $index => $entry) {
             $cssClass = $entry['sender'] === 'user' ? 'user-msg' : 'bot-msg';
             $msg = htmlspecialchars($entry['message']);
 
+            // Nếu là bot và là tin nhắn cuối cùng → để trống để JS xử lý
             if ($entry['sender'] === 'bot' && $index === $lastIndex) {
                 echo "<div id='bot-typewriter' class='{$cssClass}'></div>";
                 echo "<script>
-                    const msg = " . json_encode($msg) . ";
-                    let i = 0;
-                    const target = document.getElementById('bot-typewriter');
-                    function typeBotMessage() {
-                        if (i < msg.length) {
-                            target.innerHTML += msg.charAt(i);
-                            i++;
-                            setTimeout(typeBotMessage, 50);
-                        }
-                    }
-                    document.addEventListener('DOMContentLoaded', function() {
-                        if (!document.getElementById('bot-typewriter').innerHTML) {
-                            typeBotMessage();
-                        }
-                    });
+                  const msg = " . json_encode($msg) . ";
+                  let i = 0;
+                  const target = document.getElementById('bot-typewriter');
+
+                  function typeBotMessage() {
+                      if (i < msg.length) {
+                          target.innerHTML += msg.charAt(i);
+                          i++;
+                          setTimeout(typeBotMessage, 50); // tốc độ gõ
+                      }
+                  }
+
+                  document.addEventListener('DOMContentLoaded', typeBotMessage);
                 </script>";
             } else {
                 echo "<div class='{$cssClass}'>{$msg}</div>";
             }
         }
-        ?>
+      ?>
     </div>
 
     <form method="POST" id="chat-form" autocomplete="off" class="chat-form">
-        <input type="text" name="user_input" id="user_input" placeholder="Nhập tin nhắn..." required>
-        <button type="submit" id="send-btn">Gửi</button>
+      <input type="text" name="user_input" id="user_input" placeholder="Nhập tin nhắn..." required>
+      <button type="submit" id="send-btn">Gửi</button>
     </form>
 
     <div class="reset-btn">
-        <form method="GET">
-            <button type="submit" name="reset" value="1">🔄 Bắt đầu lại</button>
-        </form>
+      <form method="GET">
+        <button type="submit" name="reset" value="1">🔄 Bắt đầu lại</button>
+      </form>
     </div>
 </div>
 
-<?php include_once('includes/footer.php'); ?>
+<?php include_once('includes/footer.php'); // Bao gồm footer ?>
 
 <script>
   // Tự động cuộn
@@ -99,11 +98,9 @@ include_once('includes/header.php'); // Bao gồm header
     chatBox.scrollTop = chatBox.scrollHeight;
   };
 
+  // Gửi bằng Enter
   const input = document.getElementById('user_input');
   const form = document.getElementById('chat-form');
-  const sendBtn = document.getElementById('send-btn');
-
-  // Gửi bằng Enter
   input.addEventListener("keypress", function(e) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -112,18 +109,13 @@ include_once('includes/header.php'); // Bao gồm header
   });
 
   // Disable nút gửi nếu trống
+  const sendBtn = document.getElementById('send-btn');
   input.addEventListener("input", () => {
     sendBtn.disabled = input.value.trim() === '';
   });
 
-  // Chặn gửi nhiều lần
-  let isSubmitting = false;
-  form.addEventListener('submit', function(e) {
-    if (isSubmitting) {
-      e.preventDefault();
-      return;
-    }
-    isSubmitting = true;
+  // Loading (giả lập)
+  form.addEventListener('submit', () => {
     sendBtn.textContent = "Đang gửi...";
     sendBtn.classList.add("loading");
   });

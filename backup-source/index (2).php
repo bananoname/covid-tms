@@ -39,40 +39,31 @@ if (isset($_POST['user_input'])) {
         $_SESSION['history'][] = ['sender' => 'bot', 'message' => "Xin lỗi, tôi gặp chút trục trặc. Bạn thử lại sau nhé!"];
     }
 }
-
-include_once('includes/header.php'); // Bao gồm header
 ?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Global Health Corp. - Trợ lý Y Tế AI</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 
-<div class="chat-container">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <h1>🌐 Global Health Corp.</h1>
+    <p>Trợ Lý Y Tế AI - Chatbot hỗ trợ</p>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="chat-container">
     <div id="chat-box" class="chat-box">
       <?php
-        $lastIndex = count($_SESSION['history']) - 1;
-
-        foreach ($_SESSION['history'] as $index => $entry) {
+        foreach ($_SESSION['history'] as $entry) {
             $cssClass = $entry['sender'] === 'user' ? 'user-msg' : 'bot-msg';
-            $msg = htmlspecialchars($entry['message']);
-
-            // Nếu là bot và là tin nhắn cuối cùng → để trống để JS xử lý
-            if ($entry['sender'] === 'bot' && $index === $lastIndex) {
-                echo "<div id='bot-typewriter' class='{$cssClass}'></div>";
-                echo "<script>
-                  const msg = " . json_encode($msg) . ";
-                  let i = 0;
-                  const target = document.getElementById('bot-typewriter');
-
-                  function typeBotMessage() {
-                      if (i < msg.length) {
-                          target.innerHTML += msg.charAt(i);
-                          i++;
-                          setTimeout(typeBotMessage, 50); // tốc độ gõ
-                      }
-                  }
-
-                  document.addEventListener('DOMContentLoaded', typeBotMessage);
-                </script>";
-            } else {
-                echo "<div class='{$cssClass}'>{$msg}</div>";
-            }
+            echo "<div class='{$cssClass}'>" . htmlspecialchars($entry['message']) . "</div>";
         }
       ?>
     </div>
@@ -87,9 +78,14 @@ include_once('includes/header.php'); // Bao gồm header
         <button type="submit" name="reset" value="1">🔄 Bắt đầu lại</button>
       </form>
     </div>
-</div>
+  </div>
+</main>
 
-<?php include_once('includes/footer.php'); // Bao gồm footer ?>
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; <?php echo date('Y'); ?> Global Health Corp. | All rights reserved.</p>
+  </div>
+</footer>
 
 <script>
   // Tự động cuộn

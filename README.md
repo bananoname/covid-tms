@@ -23,7 +23,7 @@ This lab is designed for students to practice identifying and exploiting **SQL I
 2. Clone or copy this lab folder into your web server's `htdocs` directory.
 3. Start Apache and MySQL services.
 4. Import the provided `covid19_lab.sql` database into your MySQL server.
-5. Access the system via `http://localhost/[your-folder-name]/index.html`.
+5. Access the system via `http://localhost/[your-folder-name]`.
 
 ## Challenge Objectives
 - Find and exploit the **SQL Injection** vulnerability.
